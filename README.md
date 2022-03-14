@@ -1,5 +1,5 @@
-# Мой проект Bookstagramm
-# Я изучаю fsatAPI и Pytest, работая над этим проектом
+# Мой проект Bookstagram
+Я изучаю fsatAPI и Pytest, работая над этим проектом
 
 
 ```
