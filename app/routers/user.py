@@ -13,12 +13,12 @@ router = APIRouter(
 # Users
 # Создаем пользователя
 @router.post("/", status_code= status.HTTP_201_CREATED, response_model=schemas.UserOut)
-def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
-    new_user = models.User(**user.dict()) # упаковка аргументов
+def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):    
     check_user = db.query(models.User).filter(models.User.email == user.email).first()
     if not check_user:
         hashed_password = utils.hash(user.password)
         user.password = hashed_password
+        new_user = models.User(**user.dict()) # упаковка аргументов
         db.add(new_user)
         db.commit()
         db.refresh(new_user)

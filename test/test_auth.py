@@ -27,7 +27,3 @@ def test_incorrect_login(test_user, client, email, password, status_code):
 
     res = client.post("/login", data = {"username": email, "password": password})
     assert res.status_code == status_code
-
-
-
-
