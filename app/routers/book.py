@@ -16,7 +16,7 @@ async def get_books(db: Session = Depends(get_db), current_user: int =
 Depends(oauth2.get_current_user), limit: int = 10, rating: float = 0.0):
     # cursor.execute("""SELECT * FROM books """) 
     # books = cursor.fetchall()
-    books = db.query(models.Book).filter(models.Book.owner_id == current_user.id, models.Book.rating >= rating).limit(limit).all()
+    books = db.query(models.Book).filter(models.Book.rating >= rating).limit(limit).all()
     return books
 
 
