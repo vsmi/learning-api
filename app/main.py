@@ -27,7 +27,7 @@ app.include_router(vote.router)
 #Корневой вызов
 @app.get("/")
 def root():
-    return {"Data": "It is first FastAPI app"}
+    return {"Welcome": "Have a nice day!"}
         
 
 
