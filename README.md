@@ -243,6 +243,8 @@ GET
 
 ### Create Book - Метод создания записи о книге
 
+**Request**
+
 POST
 {{url}}/books
 
@@ -284,6 +286,8 @@ POST
 ---
 
 ### Update Book - Метод создания записи о книге
+
+**Request**
 
 PUT
 {{url}}/books/{{id}}
@@ -341,6 +345,8 @@ Path parameter: id - Уникальный идентификатор книги 
 ---
 
 ### Delete Book - Метод удаления записи о книге
+
+**Request**
 
 DELETE
 {{url}}/books/{{id}}

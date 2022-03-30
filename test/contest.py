@@ -6,9 +6,11 @@ import psycopg2
 import pytest
 from psycopg2.extras import RealDictCursor
 import time
+from app import models
 from app.config import settings
 from app.database import get_db, Base
 from app.main import app
+from app.oauth2 import create_access_token
 from fastapi.testclient import TestClient
 
 
@@ -48,6 +50,70 @@ def test_user(client):
     new_user["password"] = user_data["password"]
     return new_user
 
+@pytest.fixture()
+def test_user2(client):
+    user_data = {"email": "usertest2@gmail.com", "password": "password123"}
+    res = client.post("/users/", json = user_data)
+    assert res.status_code == 201
+    new_user = res.json()
+    new_user["password"] = user_data["password"]
+    return new_user
+
+@pytest.fixture()
+def token(test_user):
+    return create_access_token({"user_id": test_user['id']})
+
+@pytest.fixture()
+def authorized_user(client, token):
+    client.headers = {
+        **client.headers,
+        "Authorization": f"Bearer {token}"
+    }
+    return client
+
+
+@pytest.fixture
+def test_books(test_user, session, test_user2):
+    books_data = [{
+        "title": "Война и мир",
+        "author": "Л Толстой",
+        "rating": 5.0,
+        "owner_id": test_user['id'],
+        "read": True
+    }, {
+        "title": "Идиот",
+        "author": "Ф М Достоевский",
+        "rating": 5.0,
+        "owner_id": test_user['id'],
+        "read": True
+    },
+        {
+       "title": "Война миров",
+        "author": "Г Уэлс",
+        "rating": 0.0,
+        "owner_id": test_user['id'],
+        "read": False
+    }, {
+        "title": "Ученица",
+        "author": "Т Вестовер",
+        "rating": 5.0,
+        "owner_id": test_user2['id'],
+        "read": True
+    }]
+
+    def create_book_model(book):
+        return models.Book(**book)
+
+    book_map = map(create_book_model, books_data)
+    books = list(book_map)
+
+    session.add_all(books)
+    # session.add_all([models.Post(title="first title", content="first content", owner_id=test_user['id']),
+    #                 models.Post(title="2nd title", content="2nd content", owner_id=test_user['id']), models.Post(title="3rd title", content="3rd content", owner_id=test_user['id'])])
+    session.commit()
+
+    books = session.query(models.Book).all()
+    return books
     
     
 
