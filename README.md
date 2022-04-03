@@ -495,8 +495,12 @@ Path parameter: id - Уникальный идентификатор книги 
     {
     "msg": "successfully added vote"
     }
+    ```
+    
     или
-     ```json
+
+    ```json
+
     {
     "msg": "successfully deleted vote"
     }
