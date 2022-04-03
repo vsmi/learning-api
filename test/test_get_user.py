@@ -1,6 +1,5 @@
 import pytest
 from app import schemas
-from .contest import test_user, client, session
 from app import schemas
 
 

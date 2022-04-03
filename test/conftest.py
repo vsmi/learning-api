@@ -97,8 +97,77 @@ def test_books(test_user, session, test_user2):
         "title": "Ученица",
         "author": "Т Вестовер",
         "rating": 5.0,
+        "owner_id": test_user['id'],
+        "read": True
+    },
+    {
+        "title": "Жареные зеленые помидоры",
+        "author": "Ф Флэгг",
+        "rating": 5.0,
+        "owner_id": test_user['id'],
+        "read": True
+    },
+    {
+        "title": "Мертвые души",
+        "author": "",
+        "rating": 5.0,
+        "owner_id": test_user['id'],
+        "read": True
+    },
+    {
+        "title": "Капитанская дочка",
+        "author": "Пушкин А С",
+        "rating": 3.5,
+        "owner_id": test_user['id'],
+        "read": True
+    },
+    {
+        "title": "Мастер и маргарита",
+        "author": "Булгаков",
+        "rating": 4.5,
+        "owner_id": test_user['id'],
+        "read": True
+    },
+    {
+        "title": "Джейн Эйр",
+        "author": "Бронте",
+        "rating": 4.5,
+        "owner_id": test_user['id'],
+        "read": True
+    },
+    {
+        "title": "Гордость и предубеждение",
+        "author": "Бронте",
+        "rating": 3.5,
+        "owner_id": test_user['id'],
+        "read": True
+    },
+    {
+        "title": "Милый друг",
+        "author": "ГиДе Мопассан",
+        "rating": 4.5,
         "owner_id": test_user2['id'],
         "read": True
+    },
+    {
+        "title": "Гордость и предубеждение",
+        "author": "Остин",
+        "rating": 4.5,
+        "owner_id": test_user2['id'],
+        "read": True
+    },
+    {
+        "title": "Унесенные ветром",
+        "author": "М Митччел",
+        "owner_id": test_user['id'],
+        "read": True
+    },
+    {
+        "title": "Узорный покров",
+        "author": "Моем",
+        "rating": 0.0,
+        "owner_id": test_user['id'],
+        "read": False
     }]
 
     def create_book_model(book):
@@ -114,6 +183,12 @@ def test_books(test_user, session, test_user2):
 
     books = session.query(models.Book).all()
     return books
-    
+
+
+@pytest.fixture()
+def test_voted_book(test_books, session, test_user):
+    new_vote =  models.Vote(book_id=test_books[3].id, user_id=test_user['id'])
+    session.add(new_vote)
+    session.commit()
     
 

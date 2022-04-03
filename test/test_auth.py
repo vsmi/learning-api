@@ -1,4 +1,3 @@
-from .contest import test_user, client, session
 from jose import jwt
 from app.config import settings
 from app import schemas
