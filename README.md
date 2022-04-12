@@ -187,7 +187,7 @@ POST
 
 **Request**
 
-GET (Метод доступен только авторизованным пользователям)
+GET
 {{url}}/books?[limit=10]&[rating=0.0]
 
 | Параметр | Описание | Обязательность | Тип | Значение по умолчанию |
@@ -400,7 +400,7 @@ Path parameter:
 
 **Request**
 
-GET (Метод доступен только авторизованным пользователям)
+GET 
 {{url}}/books/{{id}}
 
 Path parameter:
@@ -496,7 +496,7 @@ Path parameter: id - Уникальный идентификатор книги 
     "msg": "successfully added vote"
     }
     ```
-    
+     
     или
 
     ```json

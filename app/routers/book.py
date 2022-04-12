@@ -12,8 +12,7 @@ router = APIRouter(
 
 # Вызовет список всех книг и инф по ним
 @router.get("/", response_model=List[schemas.CurrentBook])
-async def get_books(db: Session = Depends(get_db), current_user: int = 
-Depends(oauth2.get_current_user), limit: int = 10, rating: float = 0.0):
+async def get_books(db: Session = Depends(get_db), limit: int = 10, rating: float = 0.0):
     # cursor.execute("""SELECT * FROM books """) 
     # books = cursor.fetchall()
     books = db.query(models.Book).filter(models.Book.rating >= rating).limit(limit).all()
@@ -36,8 +35,7 @@ Depends(oauth2.get_current_user)):
 
 # вернет инф по определенной книге через id
 @router.get("/{id}", response_model=schemas.CurrentBook)
-def get_book(id: int, response: Response, db: Session = Depends(get_db), current_user: int = 
-Depends(oauth2.get_current_user)):
+def get_book(id: int, response: Response, db: Session = Depends(get_db)):
     # cursor.execute("""SELECT * FROM books WHERE id = %s""", [str(id)])  # (str(id),) принимает либо словарь, либо кортеж
     # print ("id=",id, "type=",type(id))
     # book = cursor.fetchone()
@@ -46,8 +44,8 @@ Depends(oauth2.get_current_user)):
     if not book:
         raise HTTPException(status_code= status.HTTP_404_NOT_FOUND, detail= f"book with id {id} was not found")
 
-    if book.owner_id != current_user.id:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to perform requested action")
+    # if book.owner_id != current_user.id:
+    #     raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to perform requested action")
         # response.status_code = status.HTTP_404_NOT_FOUND
         # return {"message": f"book with id {id} was not found"}
     return book
