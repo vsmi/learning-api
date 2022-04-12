@@ -5,7 +5,7 @@ from app import schemas
 
 def test_get_books_unauthorized(client, test_books):
     res = client.get("/books/")
-    assert res.status_code == 401
+    assert res.status_code == 200
 
 def test_get_books_default_param(authorized_user, test_books):
     res = authorized_user.get("/books/")
@@ -40,11 +40,11 @@ def test_get_books_limit_rating_string(authorized_user, test_books):
 
 def test_get_one_book_unauthorized(client, test_books):
     res = client.get(f"/books/{test_books[0].id}")
-    assert res.status_code == 401
+    assert res.status_code == 200
 
 def test_get_one_book_by_other_user(authorized_user, test_books):
     res = authorized_user.get(f"/books/{test_books[11].id}")
-    assert res.status_code == 403
+    assert res.status_code == 200
 
 def test_get_one_book(authorized_user, test_books):
     res = authorized_user.get(f"/books/{test_books[0].id}")
