@@ -1,6 +1,7 @@
+from asyncio.windows_events import NULL
 from app import oauth2
 from .. import models, schemas, utils, oauth2
-from typing import List
+from typing import List, Optional
 from fastapi import FastAPI, Response, status, HTTPException, Depends, APIRouter
 from sqlalchemy.orm import Session
 from ..database import get_db
@@ -12,10 +13,13 @@ router = APIRouter(
 
 # Вызовет список всех книг и инф по ним
 @router.get("/", response_model=List[schemas.CurrentBook])
-async def get_books(db: Session = Depends(get_db), limit: int = 10, rating: float = 0.0):
+async def get_books(db: Session = Depends(get_db), limit: int = 10, rating: Optional[float] = None):
     # cursor.execute("""SELECT * FROM books """) 
     # books = cursor.fetchall()
-    books = db.query(models.Book).filter(models.Book.rating >= rating).limit(limit).all()
+    if rating:
+        books = db.query(models.Book).filter(models.Book.rating >= rating).limit(limit).all()
+    else:
+        books = db.query(models.Book).limit(limit).all()
     return books
 
 
