@@ -1,4 +1,3 @@
-from asyncio.windows_events import NULL
 from app import oauth2
 from .. import models, schemas, utils, oauth2
 from typing import List, Optional
