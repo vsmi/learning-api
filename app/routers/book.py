@@ -4,6 +4,7 @@ from typing import List, Optional
 from fastapi import FastAPI, Response, status, HTTPException, Depends, APIRouter
 from sqlalchemy.orm import Session
 from ..database import get_db
+from urllib.parse import unquote
 
 router = APIRouter(
     prefix= "/books",
@@ -15,12 +16,41 @@ router = APIRouter(
 async def get_books(db: Session = Depends(get_db), limit: int = 10, rating: Optional[float] = None):
     # cursor.execute("""SELECT * FROM books """) 
     # books = cursor.fetchall()
-    if rating:
+    if rating:        
         books = db.query(models.Book).filter(models.Book.rating >= rating).limit(limit).all()
     else:
         books = db.query(models.Book).limit(limit).all()
     return books
 
+# Вызовет список всех книг по названию
+@router.get("/by-title/{title}", response_model=List[schemas.CurrentBook])
+async def get_books(title: str, db: Session = Depends(get_db), limit: int = 10, rating: Optional[float] = None):
+    # cursor.execute("""SELECT * FROM books """) 
+    # books = cursor.fetchall()
+    if rating and title:        
+        books = db.query(models.Book).filter(models.Book.rating >= rating, models.Book.title == unquote(title)).limit(limit).all()
+    elif rating:    
+        books = db.query(models.Book).filter(models.Book.rating >= rating).limit(limit).all()
+    elif title:
+        books = db.query(models.Book).filter(models.Book.title == unquote(title)).limit(limit).all()
+    else:
+        books = db.query(models.Book).limit(limit).all()
+    return books
+
+# Вызовет список всех книг по автору
+@router.get("/by-author/{author}", response_model=List[schemas.CurrentBook])
+async def get_books(author: str, db: Session = Depends(get_db), limit: int = 10, rating: Optional[float] = None):
+    # cursor.execute("""SELECT * FROM books """) 
+    # books = cursor.fetchall()
+    if rating and author:        
+        books = db.query(models.Book).filter(models.Book.rating >= rating, models.Book.author == unquote(author)).limit(limit).all()
+    elif rating:    
+        books = db.query(models.Book).filter(models.Book.rating >= rating).limit(limit).all()
+    elif author:
+        books = db.query(models.Book).filter(models.Book.author == unquote(author)).limit(limit).all()
+    else:
+        books = db.query(models.Book).limit(limit).all()
+    return books
 
 # создаст запись в базе
 @router.post("/", status_code= status.HTTP_201_CREATED, response_model=schemas.CurrentBook)
