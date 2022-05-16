@@ -140,3 +140,49 @@ def test_delete_book_not_auth(client, test_books):
 def test_delete_book_not_credentials(authorized_user, test_user, test_user2, test_books):
     res = authorized_user.delete(f"/books/{test_books[11].id}")
     assert res.status_code == 403
+
+##############################################################################
+
+def test_get_books_by_author_unauthorized(client, test_books):
+    res = client.get(f"/books/by-author/{test_books[9].author}")
+    def validate(post):
+        return schemas.CurrentBook(**post)
+    posts_map = map(validate, res.json())
+    posts_list = list(posts_map)
+    assert len(res.json()) == 2
+    assert res.status_code == 200
+
+
+def test_get_books_by_author(authorized_user, test_books):
+    res = authorized_user.get(f"/books/by-author/{test_books[9].author}?rating=4")
+
+    def validate(post):
+        return schemas.CurrentBook(**post)
+    posts_map = map(validate, res.json())
+    posts_list = list(posts_map)
+
+    assert len(res.json()) == 1
+    assert res.status_code == 200
+
+def test_get_books_not_found(authorized_user, test_books):
+    res = authorized_user.get("/books/by-author/НетТакогоАвтораВБазе")
+
+    def validate(post):
+        return schemas.CurrentBook(**post)
+    posts_map = map(validate, res.json())
+    posts_list = list(posts_map)
+
+    assert len(res.json()) == 0
+    assert res.status_code == 200
+
+def test_get_books_invalid_param_author(authorized_user, test_books):
+    res = authorized_user.get("/books/by-author/")
+
+    assert res.status_code == 422
+
+def test_get_books_invalid_param_rating(authorized_user, test_books):
+    res = authorized_user.get(f"/books/by-author/{test_books[9].author}?rating='d'")
+
+    assert res.status_code == 422
+
+# Дописать fixture и тесты на limit

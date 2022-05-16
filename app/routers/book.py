@@ -5,6 +5,8 @@ from fastapi import FastAPI, Response, status, HTTPException, Depends, APIRouter
 from sqlalchemy.orm import Session
 from ..database import get_db
 from urllib.parse import unquote
+from sqlalchemy.sql import select
+from .. import search
 
 router = APIRouter(
     prefix= "/books",
@@ -22,35 +24,74 @@ async def get_books(db: Session = Depends(get_db), limit: int = 10, rating: Opti
         books = db.query(models.Book).limit(limit).all()
     return books
 
-# Вызовет список всех книг по названию
+# Вызовет список всех книг по названию. (используем fuzzy для поиска похожих названий)
 @router.get("/by-title/{title}", response_model=List[schemas.CurrentBook])
 async def get_books(title: str, db: Session = Depends(get_db), limit: int = 10, rating: Optional[float] = None):
     # cursor.execute("""SELECT * FROM books """) 
     # books = cursor.fetchall()
-    if rating and title:        
-        books = db.query(models.Book).filter(models.Book.rating >= rating, models.Book.title == unquote(title)).limit(limit).all()
-    elif rating:    
-        books = db.query(models.Book).filter(models.Book.rating >= rating).limit(limit).all()
-    elif title:
-        books = db.query(models.Book).filter(models.Book.title == unquote(title)).limit(limit).all()
+
+    # собираем все книги из базы в список titles_list
+    s = select(models.Book.title)
+    titles = db.execute(s)
+    titles_list = []
+    for row in titles:
+        titles_list.append(row)        
+    titles_list_0 = list(map(lambda x: x[0], titles_list))
+
+       
+    
+    # отбираем похожие названия
+    similar_titles = []
+    for element in titles_list_0:
+        if search.search_title(element, title):
+            similar_titles.append(element)
+ 
+         
+              
+    if rating and similar_titles:          
+        books = db.query(models.Book).where(models.Book.title.in_(similar_titles)).filter(models.Book.rating >= rating).limit(limit).all()
+    elif similar_titles:
+        books = db.query(models.Book).where(models.Book.title.in_(similar_titles)).limit(limit).all()
     else:
-        books = db.query(models.Book).limit(limit).all()
+        books = []
     return books
 
-# Вызовет список всех книг по автору
+
+# Вызовет список всех книг по автору (используем fuzzy для поиска похожих авторов)
 @router.get("/by-author/{author}", response_model=List[schemas.CurrentBook])
 async def get_books(author: str, db: Session = Depends(get_db), limit: int = 10, rating: Optional[float] = None):
     # cursor.execute("""SELECT * FROM books """) 
     # books = cursor.fetchall()
-    if rating and author:        
-        books = db.query(models.Book).filter(models.Book.rating >= rating, models.Book.author == unquote(author)).limit(limit).all()
-    elif rating:    
-        books = db.query(models.Book).filter(models.Book.rating >= rating).limit(limit).all()
-    elif author:
-        books = db.query(models.Book).filter(models.Book.author == unquote(author)).limit(limit).all()
+
+    # собираем всех автором из базы в список authors_list
+    s = select(models.Book.author)
+    authors = db.execute(s)
+    authors_list = []
+    for row in authors:
+        authors_list.append(row)        
+    authors_list_0 = list(map(lambda x: x[0], authors_list))
+       
+    
+    # отбираем похожих авторов
+    similar_authors = []
+    for element in authors_list_0:
+        if search.search_author(element, author):
+            similar_authors.append(element)
+    #print(similar_authors) 
+         
+              
+    if rating and similar_authors:
+        books = db.query(models.Book).where(models.Book.author.in_(similar_authors)).filter(models.Book.rating >= rating).limit(limit).all()
+    elif similar_authors:
+        books = db.query(models.Book).where(models.Book.author.in_(similar_authors)).limit(limit).all()
     else:
-        books = db.query(models.Book).limit(limit).all()
+        books = [] #подумать тут мб сделать запрос по умолчанию
     return books
+
+
+
+
+
 
 # создаст запись в базе
 @router.post("/", status_code= status.HTTP_201_CREATED, response_model=schemas.CurrentBook)
