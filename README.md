@@ -385,6 +385,7 @@ POST (Метод доступен только авторизованным по
 | author | Автор книги | Нет | string |
 | rating | Рейтинг книги по мнению пользователя | Нет | float |
 | read | Флаг: прочитана книга или нет | Да | boolean |
+| description | Заметки/Мнение о книге | Нет | string |
 
 **Response**
 
@@ -396,7 +397,8 @@ POST (Метод доступен только авторизованным по
     "title": "title",
     "author": "author",
     "rating": rating,
-    "read": read,    
+    "read": read, 
+    "description": "description",
     "id": id, 
     "created_at": "datatime",
     "owner_id": id,
@@ -431,6 +433,7 @@ Path parameter: id - Уникальный идентификатор книги 
 | author | Автор книги | Нет | string |
 | rating | Рейтинг книги по мнению пользователя | Нет | float |
 | read | Флаг: прочитана книга или нет | Да | boolean |
+| description | Заметки/Мнение о книге | Нет | string |
 
 **Response**
 
@@ -442,7 +445,8 @@ Path parameter: id - Уникальный идентификатор книги 
     "title": "title",
     "author": "author",
     "rating": rating,
-    "read": read,    
+    "read": read,
+    "description": "description",    
     "id": id, 
     "created_at": "datatime",
     "owner_id": id,
@@ -461,7 +465,10 @@ Path parameter: id - Уникальный идентификатор книги 
         ```json
         {
             "detail": "book with id {id} was not found"
-        }         
+        } 
+    - Не переданы обязательные параметры или переданы некорректные значения        
+        Код ответа - 422        
+        И  объект в формате json с указанием на ошибку        
         
 
 ---
