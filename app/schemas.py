@@ -16,6 +16,7 @@ class BookBase(BaseModel):
     author: Optional[str]
     rating: Optional[float] = None
     read: bool
+    description: Optional[str]
 
 class BookCreate(BookBase):
      pass 
