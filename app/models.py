@@ -1,13 +1,18 @@
+import enum 
 from http.client import HTTPException
 from sqlite3 import Timestamp
 from .database import Base
-from sqlalchemy import Column, Integer, String, Boolean, Float, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, Float, ForeignKey, Enum
 from sqlalchemy.sql.expression import null, text
 from sqlalchemy.sql.sqltypes import TIMESTAMP
 from sqlalchemy.orm import relationship, validates
 from pydantic import BaseModel, constr, validator
 from fastapi import HTTPException, status
 
+class status_of_book_enum(str, enum.Enum):
+    in_progress = 'Читаю'
+    done = 'Прочитана'
+    suspended = 'Отложена'
 
 
 class Book(Base):
@@ -22,6 +27,8 @@ class Book(Base):
     owner_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     owner = relationship("User")
     description = Column(String, nullable=True)
+    status_of_book = Column(Enum(status_of_book_enum), nullable=True, server_default = None)
+
 
 # sqlalchemy validator
     # @validates("description")
@@ -36,10 +43,6 @@ class Book(Base):
     #             f"exceed maximum length of '{max_length}'"
     #         )
     #     return value
-
-
-
-
 
 # pydantic validator - не работает
 # class Book_model(BaseModel):    

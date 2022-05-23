@@ -89,11 +89,7 @@ async def get_books(author: str, db: Session = Depends(get_db), limit: int = 10,
     return books
 
 
-
-
-
-
-# создаст запись в базе
+# создаст запись в базе ,
 @router.post("/", status_code= status.HTTP_201_CREATED, response_model=schemas.CurrentBook)
 def create_book(book: schemas.BookCreate, db: Session = Depends(get_db), current_user: int = 
 Depends(oauth2.get_current_user)):
@@ -101,6 +97,7 @@ Depends(oauth2.get_current_user)):
     # (book.title, book.author, book.rating, book.read))
     # new_book = cursor.fetchone()
     # conn.commit()
+    print(book.status_of_book)
     new_book = models.Book(owner_id=current_user.id, **book.dict()) # упаковка аргументов
     db.add(new_book)
     db.commit()

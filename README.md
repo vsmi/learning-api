@@ -386,6 +386,7 @@ POST (Метод доступен только авторизованным по
 | rating | Рейтинг книги по мнению пользователя | Нет | float |
 | read | Флаг: прочитана книга или нет | Да | boolean |
 | description | Заметки/Мнение о книге | Нет | string |
+| status_of_book | Статус книги (Читаю/Прочитана/Отложена) | Да | string |
 
 **Response**
 
@@ -399,6 +400,7 @@ POST (Метод доступен только авторизованным по
     "rating": rating,
     "read": read, 
     "description": "description",
+    "status_of_book": "status_of_book",
     "id": id, 
     "created_at": "datatime",
     "owner_id": id,
@@ -434,6 +436,7 @@ Path parameter: id - Уникальный идентификатор книги 
 | rating | Рейтинг книги по мнению пользователя | Нет | float |
 | read | Флаг: прочитана книга или нет | Да | boolean |
 | description | Заметки/Мнение о книге | Нет | string |
+| status_of_book | Статус книги (Читаю/Прочитана/Отложена) | Да | string |
 
 **Response**
 
@@ -446,7 +449,8 @@ Path parameter: id - Уникальный идентификатор книги 
     "author": "author",
     "rating": rating,
     "read": read,
-    "description": "description",    
+    "description": "description",
+    "status_of_book": "status_of_book",    
     "id": id, 
     "created_at": "datatime",
     "owner_id": id,

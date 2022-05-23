@@ -1,15 +1,16 @@
 from datetime import datetime
+from enum import Enum
 from pydantic import BaseModel, EmailStr
 from typing import List, Optional
 from pydantic.types import conint
+from app.models import status_of_book_enum
 
 class UserOut(BaseModel):
     id: int
-    email: EmailStr
-    
-    
+    email: EmailStr        
     class Config:
         orm_mode = True
+
 
 class BookBase(BaseModel):
     title: str
@@ -17,9 +18,14 @@ class BookBase(BaseModel):
     rating: Optional[float] = None
     read: bool
     description: Optional[str]
+    status_of_book: status_of_book_enum
+
+
+    class Config:  
+        use_enum_values = True
 
 class BookCreate(BookBase):
-     pass 
+    pass 
 
 class BookUpdate(BookBase):
     pass  

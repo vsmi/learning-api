@@ -79,95 +79,109 @@ def test_books(test_user, session, test_user2):
         "author": "Л Толстой",
         "rating": 5.0,
         "owner_id": test_user['id'],
-        "read": True
+        "read": True,
+        "status_of_book": "Читаю"
     }, {
         "title": "Идиот",
         "author": "Ф М Достоевский",
         "rating": 5.0,
         "owner_id": test_user['id'],
-        "read": True
+        "read": True,
+        "status_of_book": "Читаю"
     },
         {
        "title": "Война миров",
         "author": "Г Уэлс",
         "rating": 0.0,
         "owner_id": test_user['id'],
-        "read": False
+        "read": False,
+        "status_of_book": "Читаю"
     }, {
         "title": "Ученица",
         "author": "Т Вестовер",
         "rating": 5.0,
         "owner_id": test_user['id'],
-        "read": True
+        "read": True,
+        "status_of_book": "Читаю"
     },
     {
         "title": "Жареные зеленые помидоры",
         "author": "Ф Флэгг",
         "rating": 5.0,
         "owner_id": test_user['id'],
-        "read": True
+        "read": True,
+        "status_of_book": "Отложена"
     },
     {
         "title": "Мертвые души",
         "author": "",
         "rating": 5.0,
         "owner_id": test_user['id'],
-        "read": True
+        "read": True,
+        "status_of_book": "Читаю"
     },
     {
         "title": "Капитанская дочка",
         "author": "Пушкин А С",
         "rating": 3.5,
         "owner_id": test_user['id'],
-        "read": True
+        "read": True,
+        "status_of_book": "Читаю"
     },
     {
         "title": "Мастер и маргарита",
         "author": "Булгаков",
         "rating": 4.5,
         "owner_id": test_user['id'],
-        "read": True
+        "read": True,
+        "status_of_book": "Отложена"
     },
     {
         "title": "Джейн Эйр",
         "author": "Бронте",
         "rating": 4.5,
         "owner_id": test_user['id'],
-        "read": True
+        "read": True,
+        "status_of_book": "Читаю"
     },
     {
         "title": "Гордость и предубеждение",
         "author": "Бронте",
         "rating": 3.5,
         "owner_id": test_user['id'],
-        "read": True
+        "read": True,
+        "status_of_book": "Прочитана"
     },
     {
         "title": "Милый друг",
         "author": "ГиДе Мопассан",
         "rating": 4.5,
         "owner_id": test_user2['id'],
-        "read": True
+        "read": True,
+        "status_of_book": "Прочитана"
     },
     {
         "title": "Гордость и предубеждение",
         "author": "Остин",
         "rating": 4.5,
         "owner_id": test_user2['id'],
-        "read": True
+        "read": True,
+        "status_of_book": "Читаю"
     },
     {
         "title": "Унесенные ветром",
         "author": "М Митччел",
         "owner_id": test_user['id'],
-        "read": True
+        "read": True,
+        "status_of_book": "Читаю"
     },
     {
         "title": "Узорный покров",
         "author": "Моем",
         "rating": 0.0,
         "owner_id": test_user['id'],
-        "read": False
+        "read": False,
+        "status_of_book": "Прочитана"
     }]
 
     def create_book_model(book):
