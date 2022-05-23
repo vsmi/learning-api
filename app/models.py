@@ -22,7 +22,6 @@ class Book(Base):
     title = Column(String, nullable=False)
     author = Column(String, nullable=True)
     rating = Column(Float, nullable=True)
-    read = Column(Boolean, server_default='TRUE', nullable=True)
     created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
     owner_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     owner = relationship("User")

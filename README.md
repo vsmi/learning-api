@@ -208,8 +208,7 @@ GET
     {
             "title": "title",
             "author": "author",
-            "rating": 0.0,
-            "read": T/F,
+            "rating": 0.0,            
             "id": id,
             "created_at": "datatime",
             "owner_id": id,
@@ -227,7 +226,6 @@ GET
     | title | Название книги | string |
     | author | Автор книги | string |
     | rating | Рейтинг книги, по мнению пользователя, запостившего эту запись | float |
-    | read | Флаг: прочитана или нет книга | boolean |
     | id | Уникальный идентификатор записи о книге | integer |
     | created_at | Дата создания записи о книге | datatime |
     | owner_id | Уникальный идентификатор пользователя, запостившего книгу | integer |
@@ -271,7 +269,6 @@ GET
             "title": "title",
             "author": "author",
             "rating": 0.0,
-            "read": T/F,
             "id": id,
             "created_at": "datatime",
             "owner_id": id,
@@ -289,7 +286,6 @@ GET
     | title | Название книги | string |
     | author | Автор книги | string |
     | rating | Рейтинг книги, по мнению пользователя, запостившего эту запись | float |
-    | read | Флаг: прочитана или нет книга | boolean |
     | id | Уникальный идентификатор записи о книге | integer |
     | created_at | Дата создания записи о книге | datatime |
     | owner_id | Уникальный идентификатор пользователя, запостившего книгу | integer |
@@ -334,7 +330,6 @@ GET
             "title": "title",
             "author": "author",
             "rating": 0.0,
-            "read": T/F,
             "id": id,
             "created_at": "datatime",
             "owner_id": id,
@@ -352,7 +347,6 @@ GET
     | title | Название книги | string |
     | author | Автор книги | string |
     | rating | Рейтинг книги, по мнению пользователя, запостившего эту запись | float |
-    | read | Флаг: прочитана или нет книга | boolean |
     | id | Уникальный идентификатор записи о книге | integer |
     | created_at | Дата создания записи о книге | datatime |
     | owner_id | Уникальный идентификатор пользователя, запостившего книгу | integer |
@@ -384,7 +378,6 @@ POST (Метод доступен только авторизованным по
 | title | Название книги | Да | string |
 | author | Автор книги | Нет | string |
 | rating | Рейтинг книги по мнению пользователя | Нет | float |
-| read | Флаг: прочитана книга или нет | Да | boolean |
 | description | Заметки/Мнение о книге | Нет | string |
 | status_of_book | Статус книги (Читаю/Прочитана/Отложена) | Да | string |
 
@@ -398,7 +391,6 @@ POST (Метод доступен только авторизованным по
     "title": "title",
     "author": "author",
     "rating": rating,
-    "read": read, 
     "description": "description",
     "status_of_book": "status_of_book",
     "id": id, 
@@ -434,7 +426,6 @@ Path parameter: id - Уникальный идентификатор книги 
 | title | Название книги | Да | string |
 | author | Автор книги | Нет | string |
 | rating | Рейтинг книги по мнению пользователя | Нет | float |
-| read | Флаг: прочитана книга или нет | Да | boolean |
 | description | Заметки/Мнение о книге | Нет | string |
 | status_of_book | Статус книги (Читаю/Прочитана/Отложена) | Да | string |
 
@@ -448,7 +439,6 @@ Path parameter: id - Уникальный идентификатор книги 
     "title": "title",
     "author": "author",
     "rating": rating,
-    "read": read,
     "description": "description",
     "status_of_book": "status_of_book",    
     "id": id, 
@@ -547,7 +537,6 @@ Path parameter:
             "title": "title",
             "author": "author",
             "rating": 0.0,
-            "read": T/F,
             "id": id,
             "created_at": "datatime",
             "owner_id": id,
@@ -563,7 +552,6 @@ Path parameter:
     | title | Название книги | string |
     | author | Автор книги | string |
     | rating | Рейтинг книги, по мнению пользователя, запостившего эту запись | float |
-    | read | Флаг: прочитана или нет книга | boolean |
     | id | Уникальный идентификатор записи о книге | integer |
     | created_at | Дата создания записи о книге | datatime |
     | owner_id | Уникальный идентификатор пользователя, запостившего книгу | integer |

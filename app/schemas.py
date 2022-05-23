@@ -16,7 +16,6 @@ class BookBase(BaseModel):
     title: str
     author: Optional[str]
     rating: Optional[float] = None
-    read: bool
     description: Optional[str]
     status_of_book: status_of_book_enum
 

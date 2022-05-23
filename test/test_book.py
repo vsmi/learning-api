@@ -56,16 +56,16 @@ def test_get_one_book(authorized_user, test_books):
 
 ################################################################################
 
-@pytest.mark.parametrize("title, author, rating, read, status_of_book, status_code", [
-    ("Три товарища", "Э М Ремарк", 4.8, True, "Читаю", 201),
-    ("Триумфальная арка", "Э М Ремарк", 4.0, False, "Отложена", 201)
+@pytest.mark.parametrize("title, author, rating, status_of_book, status_code", [
+    ("Три товарища", "Э М Ремарк", 4.8, "Читаю", 201),
+    ("Триумфальная арка", "Э М Ремарк", 4.0, "Отложена", 201)
 ]) 
-def test_create_book(authorized_user, test_user, test_books, title, author, rating, read, status_of_book, status_code):
-    res = authorized_user.post("/books/", json = {"title": title, "author": author, "rating": rating, "read": read, "status_of_book": status_of_book})
+def test_create_book(authorized_user, test_user, test_books, title, author, rating, status_of_book, status_code):
+    res = authorized_user.post("/books/", json = {"title": title, "author": author, "rating": rating, "status_of_book": status_of_book})
     assert res.status_code == status_code 
 
 def test_create_book_without_title(authorized_user):
-    res = authorized_user.post("/books/", json = {"author": "Тара Ветовер", "rating": 5.0, "read": True})
+    res = authorized_user.post("/books/", json = {"author": "Тара Ветовер", "rating": 5.0})
     assert res.status_code == 422
 
 def test_create_book_without_read(authorized_user):
@@ -73,50 +73,48 @@ def test_create_book_without_read(authorized_user):
     assert res.status_code == 422
 
 def test_create_book_without_optional_fields(authorized_user):
-    res = authorized_user.post("/books/", json = {"title": "Ученица", "read": True, "status_of_book": "Читаю"})
+    res = authorized_user.post("/books/", json = {"title": "Ученица", "status_of_book": "Читаю"})
     assert res.status_code == 201
 
-@pytest.mark.parametrize("title, author, rating, read, status_of_book, status_code", [
-    (123, "Э М Ремарк", 4.8, True, "Читаю", 201), # Конвертирует int в str
-    ("", "Э М Ремарк", 4.0, False, "Отложена", 201), # Принимает пустое
-    (" ", "Э М Ремарк", 4.8, True, "Отложена", 201), # Принимает пробелы
-    ("Война и мир", 123, 4.8, True, "Отложена",201), # Конвертирует int в str
-    ("Война и мир", "", 4.8, True, "Читаю", 201), # Принимает пустое
-    ("Война и мир", " ", 4.8, True, "Читаю", 201), # Принимает пробелы
-    ("Война и мир", "Толстой", "", True, "Читаю", 422),
-    ("Война и мир", "Толстой", "rating", True, "Читаю", 422),
-    ("Война и мир", "Толстой", 5.0, 1, "Прочитана", 201), # Конвертирует 1 в true
-    ("Война и мир", "Толстой", 5.0, 15, "Читаю", 422),
-    ("Война и мир", "Толстой", 5.0, "1", "Прочитана", 201) # Конвертирует "1" в true
+@pytest.mark.parametrize("title, author, rating, status_of_book, status_code", [
+    (123, "Э М Ремарк", 4.8, "Читаю", 201), # Конвертирует int в str
+    ("", "Э М Ремарк", 4.0, "Отложена", 201), # Принимает пустое
+    (" ", "Э М Ремарк", 4.8, "Отложена", 201), # Принимает пробелы
+    ("Война и мир", 123, 4.8, "Отложена",201), # Конвертирует int в str
+    ("Война и мир", "", 4.8, "Читаю", 201), # Принимает пустое
+    ("Война и мир", " ", 4.8, "Читаю", 201), # Принимает пробелы
+    ("Война и мир", "Толстой", "", "Читаю", 422),
+    ("Война и мир", "Толстой", "rating", "Читаю", 422),
+    ("Война и мир", "Толстой", 5.0, "Прочитана", 201), # Конвертирует 1 в true
+    ("Война и мир", "Толстой", 5.0, "Прочитана", 201) # Конвертирует "1" в true
 ]) 
-def test_create_book_invalid_values(authorized_user, test_user, test_books, title, author, rating, read, status_of_book, status_code):
-    res = authorized_user.post("/books/", json = {"title": title, "author": author, "rating": rating, "read": read, "status_of_book": status_of_book})
+def test_create_book_invalid_values(authorized_user, test_user, test_books, title, author, rating, status_of_book, status_code):
+    res = authorized_user.post("/books/", json = {"title": title, "author": author, "rating": rating, "status_of_book": status_of_book})
     assert res.status_code == status_code 
 
 ###############################################################################
 
 def test_update_book(authorized_user, test_books):
-    res = authorized_user.put(f"/books/{test_books[0].id}", json = {"title": "Анна Каренина", "rating" : 4.0, "read": True, "status_of_book": "Читаю"})
+    res = authorized_user.put(f"/books/{test_books[0].id}", json = {"title": "Анна Каренина", "rating" : 4.0, "status_of_book": "Читаю"})
     book = schemas.CurrentBook(**res.json())
     assert res.status_code == 200
     assert book.title == "Анна Каренина"
     assert book.rating == 4.0
 
 def test_update_book_not_exist(authorized_user, test_books):
-    res = authorized_user.put("/books/88888", json = {"title": "Анна Каренина", "rating" : 4.0, "read": True, "status_of_book": "Читаю"})
+    res = authorized_user.put("/books/88888", json = {"title": "Анна Каренина", "rating" : 4.0, "status_of_book": "Читаю"})
     #book = schemas.CurrentBook(**res.json())
     assert res.status_code == 404
 
 def test_update_book_not_auth(client, test_books):
-    res = client.put(f"/books/{test_books[0].id}", json = {"title": "Анна Каренина", "rating" : 4.0, "read": True, "status_of_book": "Читаю"})
+    res = client.put(f"/books/{test_books[0].id}", json = {"title": "Анна Каренина", "rating" : 4.0, "status_of_book": "Читаю"})
     #book = schemas.CurrentBook(**res.json())
     assert res.status_code == 401
 
 def test_update_book_not_credentials(authorized_user, test_user, test_user2, test_books):
     data = {
         "title": "Анна Каренина", 
-        "rating" : 4.0, 
-        "read": True,
+        "rating" : 4.0,         
         "status_of_book": "Отложена",
         "id": test_books[11].id
         }

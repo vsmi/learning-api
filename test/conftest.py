@@ -79,14 +79,12 @@ def test_books(test_user, session, test_user2):
         "author": "Л Толстой",
         "rating": 5.0,
         "owner_id": test_user['id'],
-        "read": True,
         "status_of_book": "Читаю"
     }, {
         "title": "Идиот",
         "author": "Ф М Достоевский",
         "rating": 5.0,
         "owner_id": test_user['id'],
-        "read": True,
         "status_of_book": "Читаю"
     },
         {
@@ -94,14 +92,12 @@ def test_books(test_user, session, test_user2):
         "author": "Г Уэлс",
         "rating": 0.0,
         "owner_id": test_user['id'],
-        "read": False,
         "status_of_book": "Читаю"
     }, {
         "title": "Ученица",
         "author": "Т Вестовер",
         "rating": 5.0,
         "owner_id": test_user['id'],
-        "read": True,
         "status_of_book": "Читаю"
     },
     {
@@ -109,7 +105,6 @@ def test_books(test_user, session, test_user2):
         "author": "Ф Флэгг",
         "rating": 5.0,
         "owner_id": test_user['id'],
-        "read": True,
         "status_of_book": "Отложена"
     },
     {
@@ -117,7 +112,6 @@ def test_books(test_user, session, test_user2):
         "author": "",
         "rating": 5.0,
         "owner_id": test_user['id'],
-        "read": True,
         "status_of_book": "Читаю"
     },
     {
@@ -125,7 +119,6 @@ def test_books(test_user, session, test_user2):
         "author": "Пушкин А С",
         "rating": 3.5,
         "owner_id": test_user['id'],
-        "read": True,
         "status_of_book": "Читаю"
     },
     {
@@ -133,7 +126,6 @@ def test_books(test_user, session, test_user2):
         "author": "Булгаков",
         "rating": 4.5,
         "owner_id": test_user['id'],
-        "read": True,
         "status_of_book": "Отложена"
     },
     {
@@ -141,7 +133,6 @@ def test_books(test_user, session, test_user2):
         "author": "Бронте",
         "rating": 4.5,
         "owner_id": test_user['id'],
-        "read": True,
         "status_of_book": "Читаю"
     },
     {
@@ -149,7 +140,6 @@ def test_books(test_user, session, test_user2):
         "author": "Бронте",
         "rating": 3.5,
         "owner_id": test_user['id'],
-        "read": True,
         "status_of_book": "Прочитана"
     },
     {
@@ -157,7 +147,6 @@ def test_books(test_user, session, test_user2):
         "author": "ГиДе Мопассан",
         "rating": 4.5,
         "owner_id": test_user2['id'],
-        "read": True,
         "status_of_book": "Прочитана"
     },
     {
@@ -165,14 +154,12 @@ def test_books(test_user, session, test_user2):
         "author": "Остин",
         "rating": 4.5,
         "owner_id": test_user2['id'],
-        "read": True,
         "status_of_book": "Читаю"
     },
     {
         "title": "Унесенные ветром",
         "author": "М Митччел",
         "owner_id": test_user['id'],
-        "read": True,
         "status_of_book": "Читаю"
     },
     {
@@ -180,7 +167,6 @@ def test_books(test_user, session, test_user2):
         "author": "Моем",
         "rating": 0.0,
         "owner_id": test_user['id'],
-        "read": False,
         "status_of_book": "Прочитана"
     }]
 
